@@ -7,12 +7,14 @@ PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class Ingredient(BaseModel):
     amount : Optional[Union[str, int]] = None
-    unit : str
+    unit :Optional[str]
     item : str
 
 
 class Recipe(BaseModel):
     id : Optional[PyObjectId] = Field(alias="_id", default=None)
+    week : Optional[str]
+    meal_type : Optional[str]
     menu : str
     day_of_week : Optional[str] = None
     title : str
