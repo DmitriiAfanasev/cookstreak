@@ -30,7 +30,12 @@ class Users(BaseModel):
     updated_at : Optional[str]
     last_login_at : Optional[str]
     refresh_tokens : Optional[List[Optional[str]]] = Field(default_factory=list)
-    model_config = ConfigDict(populate_by_name=True, extra="ignore", from_attributes=True)
+    model_config = ConfigDict(
+        populate_by_name=True,
+        arbitrary_types_allowed=True, 
+        extra="ignore", 
+        from_attributes=True
+        )
 
 class CollectionUsers(BaseModel):
     users : List[Users]

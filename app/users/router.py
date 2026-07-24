@@ -4,6 +4,6 @@ from ..db.mongodb import users
 
 users_router = APIRouter()
 
-@users_router.get('/all_users')
+@users_router.get('/all_users', tags=["User"])
 def get_all_users():
     return CollectionUsers(users=users.find({}))
