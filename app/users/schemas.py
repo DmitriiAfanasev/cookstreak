@@ -7,6 +7,8 @@ from pydantic import (
     field_validator,
 )
 
+from ..core.schemas import UserRole
+
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
@@ -34,10 +36,11 @@ class Users(BaseModel):
     email_verification_token: Optional[str] = None
     email_verification_expires: Optional[datetime] = None
     is_active: bool = True
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     last_login_at: Optional[str] = None
-    refresh_tokens: List[Optional[str]] = Field(default_factory=list)
+    refresh_tokens: Optional[str] = None
+    role: Optional[UserRole] = None
     model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, extra="ignore", from_attributes=True)
 
 

@@ -15,3 +15,6 @@ try:
     users.create_index("username", unique=True)
 except OperationFailure as e:
     print(f"WARNING: username index not created: {e}")
+
+refresh_tokens_db = client["refresh_tokens"]
+tokens = refresh_tokens_db["tokens"]
