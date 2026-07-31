@@ -3,3 +3,9 @@
 *.env
 !.env.example
 certs/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
