@@ -29,7 +29,7 @@ class Users(BaseModel):
     created_at : Optional[str]
     updated_at : Optional[str]
     last_login_at : Optional[str]
-    refresh_tokens : Optional[List[Optional[str]]] = Field(default_factory=list)
+    refresh_tokens : Optional[Optional[str]] = Field(default_factory=list)
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True, 
