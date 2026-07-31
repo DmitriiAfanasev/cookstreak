@@ -1,17 +1,14 @@
-from datetime import datetime, timedelta, timezone
+from datetime import timedelta
 
-import jwt
+from authx import AuthX, AuthXConfig
+from ..config import private_key, public_key
 
-from ..config import settings
+auth_config = AuthXConfig(
+    JWT_TOKEN_LOCATION=["headers"],
+    JWT_PUBLIC_KEY = public_key,
+    JWT_PRIVATE_KEY=private_key,
+    JWT_ACCESS_TOKEN_EXPIRES=timedelta(minutes=15),
+    JWT_ALGORITHM="RS256"
+)
 
-
-def create_access_token(user_id: str) -> str:
-    """Контракт токена, на который опирается get_current_user."""
-    now = datetime.now(timezone.utc)
-    payload = {
-        "sub": str(user_id),
-        "type": "access",
-        "iat": now,
-        "exp": now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
-    }
-    return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
+auth_servies = AuthX(config=auth_config)

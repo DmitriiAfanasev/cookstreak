@@ -1,15 +1,21 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pathlib import Path
 
+from pydantic_settings import BaseSettings
+
+
+BASE_DIR = Path(__file__).resolve().parent
+
+PRIVATE_KEY_PATH = BASE_DIR / "certs" / "jwt-private.pem"
+PUBLIC_KEY_PATH = BASE_DIR / "certs" / "jwt-public.pem"
+
+private_key = PRIVATE_KEY_PATH.read_text()
+public_key = PUBLIC_KEY_PATH.read_text()
 
 class Settings(BaseSettings):
-    MONGO_URL: str
-    PORT: int
+    MONGO_URL : str
+    PORT : int
 
-    JWT_SECRET_KEY: str
-    JWT_ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    
+    class Config:
+        env_file = ".env"
 
-    model_config = SettingsConfigDict(env_file=".env")
-
-
-settings = Settings()
