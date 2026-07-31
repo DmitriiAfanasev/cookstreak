@@ -10,3 +10,6 @@ foods = foods_db['foods']
 
 users_db = client["user-db"]
 users = users_db['users']
+
+refresh_tokens_db = client['refresh_tokens']
+tokens = refresh_tokens_db['tokens']

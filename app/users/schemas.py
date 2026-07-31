@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Annotated, Optional, List
 from pydantic import Field, BeforeValidator, BaseModel, EmailStr, ConfigDict
+from ..core.schemas import UserRole
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
@@ -26,10 +27,11 @@ class Users(BaseModel):
     email_verification_token : Optional[str] = None
     email_verification_expires : Optional[datetime] = None
     is_active : bool
-    created_at : Optional[str]
-    updated_at : Optional[str]
+    created_at : Optional[datetime]
+    updated_at : Optional[datetime]
     last_login_at : Optional[str]
     refresh_tokens : Optional[Optional[str]] = Field(default_factory=list)
+    role :  UserRole
     model_config = ConfigDict(
         populate_by_name=True,
         arbitrary_types_allowed=True, 
