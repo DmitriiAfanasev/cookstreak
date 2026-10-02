@@ -12,5 +12,9 @@ dependencies = [
     "jwt>=1.4.0",
     "passlib>=1.7.4",
     "pwdlib>=0.3.0",
+    "pwn>=1.0",
+    "pwntools>=4.15.0",
+    "pycryptodome>=3.23.0",
+    "pyjwt>=2.8.0,<2.10.0",
     "pymongo>=4.17.0",
 ]

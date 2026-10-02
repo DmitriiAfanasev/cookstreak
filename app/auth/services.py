@@ -17,8 +17,8 @@ def hash_token(token : str) -> str:
 def issue_refresh_token(user_id) -> TmpTokens:
     t = TmpTokens()
     token_refresh = secrets.token_urlsafe(32)
-    token_access = hash_token(auth_servies.create_access_token(uid=user_id))
-    users.update_one({"_id" : ObjectId(user_id)}, {"$set" : {"refresh_tokens" : token_refresh}})
+    token_access = auth_servies.create_access_token(uid=user_id)
+    users.update_one({"_id" : ObjectId(user_id)}, {"$set" : {"refresh_tokens" : hash_token(token_refresh)}})
     t.acc = token_access
     t.ref = token_refresh
     return t
