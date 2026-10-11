@@ -1,12 +1,17 @@
 from pymongo import MongoClient
-from ..config import Settings
+from pymongo.errors import OperationFailure
 
-settings = Settings()
+from ..config import settings
 
 client = MongoClient(settings.MONGO_URL, port=settings.PORT)
 
 foods_db = client["food-db"]
-foods = foods_db['foods']
+foods = foods_db["foods"]
 
 users_db = client["user-db"]
-users = users_db['users']
+users = users_db["users"]
+
+try:
+    users.create_index("username", unique=True)
+except OperationFailure as e:
+    print(f"WARNING: username index not created: {e}")
