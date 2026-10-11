@@ -3,7 +3,7 @@ from pymongo.errors import OperationFailure
 
 from ..config import settings
 
-client = MongoClient(settings.MONGO_URL, port=settings.PORT)
+client = MongoClient(settings.MONGO_URL, port=settings.MONGO_PORT)
 
 foods_db = client["food-db"]
 foods = foods_db["foods"]

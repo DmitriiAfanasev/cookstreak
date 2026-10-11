@@ -5,16 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "argon2>=0.1.10",
     "argon2-cffi>=25.1.0",
     "authx>=1.7.1",
     "fastapi[standard]>=0.139.0",
-    "jwt>=1.4.0",
     "passlib>=1.7.4",
-    "pwdlib>=0.3.0",
-    "pwn>=1.0",
-    "pwntools>=4.15.0",
-    "pycryptodome>=3.23.0",
     "pydantic>=2.13.4",
     "pydantic-settings>=2.14.2",
     "pyjwt>=2.8.0,<2.10.0",

@@ -29,7 +29,7 @@ class Users(BaseModel):
     goals: List[str] = Field(default_factory=list)
     current_streak: int = 0
     longest_streak: int = 0
-    last_activity_data: Optional[str] = None
+    last_activity_date: Optional[str] = None
     total_cooked_count: int = 0
     favorite_recipe_ids: List[PyObjectId] = Field(default_factory=list)
     is_verified: bool = False
