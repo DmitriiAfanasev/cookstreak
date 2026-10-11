@@ -40,7 +40,7 @@ def update_me(data: UserProfileUpdate, current_user: dict = Depends(get_current_
         if taken:
             raise USERNAME_TAKEN
 
-    updates["updated_at"] = datetime.now(timezone.utc).isoformat()
+    updates["updated_at"] = datetime.now(timezone.utc)
 
     try:
         updated = users.find_one_and_update(

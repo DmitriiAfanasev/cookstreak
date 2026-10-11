@@ -7,7 +7,11 @@ from pydantic import (
     field_validator,
 )
 
+from typing import Union
+
 from ..core.schemas import UserRole
+
+DateOrStr = Union[datetime, str]
 
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
@@ -36,9 +40,9 @@ class Users(BaseModel):
     email_verification_token: Optional[str] = None
     email_verification_expires: Optional[datetime] = None
     is_active: bool = True
-    created_at: Optional[datetime] = None
-    updated_at: Optional[datetime] = None
-    last_login_at: Optional[str] = None
+    created_at: Optional[DateOrStr] = None
+    updated_at: Optional[DateOrStr] = None
+    last_login_at: Optional[DateOrStr] = None
     refresh_tokens: Optional[str] = None
     role: Optional[UserRole] = None
     model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, extra="ignore", from_attributes=True)
@@ -67,8 +71,8 @@ class UserProfile(BaseModel):
     total_cooked_count: int = 0
     favorite_recipe_ids: List[PyObjectId] = Field(default_factory=list)
     is_verified: bool = False
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
+    created_at: Optional[DateOrStr] = None
+    updated_at: Optional[DateOrStr] = None
 
     # extra="ignore" -> hashed_password, refresh_tokens и т.п. просто отбрасываются
     model_config = ConfigDict(populate_by_name=True, extra="ignore")
