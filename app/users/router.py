@@ -13,7 +13,7 @@ users_router = APIRouter()
 USERNAME_TAKEN = HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already taken")
 
 
-@users_router.get("/all_users")
+@users_router.get("/all_users", tags=["User"])
 def get_all_users():
     return CollectionUsers(users=list(users.find({})))
 

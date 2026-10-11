@@ -7,6 +7,8 @@ from pydantic import (
     field_validator,
 )
 
+from ..core.schemas import UserRole
+
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 
@@ -27,18 +29,19 @@ class Users(BaseModel):
     goals: List[str] = Field(default_factory=list)
     current_streak: int = 0
     longest_streak: int = 0
-    last_activity_data: Optional[str] = None
+    last_activity_date: Optional[str] = None
     total_cooked_count: int = 0
     favorite_recipe_ids: List[PyObjectId] = Field(default_factory=list)
     is_verified: bool = False
     email_verification_token: Optional[str] = None
     email_verification_expires: Optional[datetime] = None
     is_active: bool = True
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
     last_login_at: Optional[str] = None
-    refresh_tokens: List[Optional[str]] = Field(default_factory=list)
-    model_config = ConfigDict(populate_by_name=True, extra="ignore", from_attributes=True)
+    refresh_tokens: Optional[str] = None
+    role: Optional[UserRole] = None
+    model_config = ConfigDict(populate_by_name=True, arbitrary_types_allowed=True, extra="ignore", from_attributes=True)
 
 
 class CollectionUsers(BaseModel):

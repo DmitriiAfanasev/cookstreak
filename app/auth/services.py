@@ -1,17 +1,27 @@
-from datetime import datetime, timedelta, timezone
+import secrets
+import hashlib
 
-import jwt
+from typing import Dict
+from bson import ObjectId
 
-from ..config import settings
+from passlib.hash import argon2
 
+from ..db.mongodb import users, tokens
+from .schemas import TmpTokens
 
-def create_access_token(user_id: str) -> str:
-    """Контракт токена, на который опирается get_current_user."""
-    now = datetime.now(timezone.utc)
-    payload = {
-        "sub": str(user_id),
-        "type": "access",
-        "iat": now,
-        "exp": now + timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
-    }
-    return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
+from ..core.config import auth_servies
+
+def hash_token(token : str) -> str:
+    return hashlib.sha256(token.encode()).hexdigest()
+
+def issue_refresh_token(user_id) -> TmpTokens:
+    t = TmpTokens()
+    token_refresh = secrets.token_urlsafe(32)
+    token_access = auth_servies.create_access_token(uid=user_id)
+    users.update_one({"_id" : ObjectId(user_id)}, {"$set" : {"refresh_tokens" : hash_token(token_refresh)}})
+    t.acc = token_access
+    t.ref = token_refresh
+    return t
+
+def rotate_refresh_token() -> TmpTokens:
+    return None

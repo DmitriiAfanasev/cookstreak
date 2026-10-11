@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from ..config import settings
+from ..core.config import auth_config
 from ..db.mongodb import users
 
 # auto_error=False: сами отдаём 401 (иначе в части версий FastAPI будет 403)
@@ -26,8 +27,8 @@ def get_current_user(
     try:
         payload = jwt.decode(
             creds.credentials,
-            settings.JWT_SECRET_KEY,
-            algorithms=[settings.JWT_ALGORITHM],
+            settings.JWT_PUBLIC_KEY,
+            algorithms=[auth_config.JWT_ALGORITHM],
         )
     except jwt.PyJWTError:  # просрочен, битая подпись, мусор
         raise credentials_exception
