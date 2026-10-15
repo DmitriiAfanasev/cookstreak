@@ -6,16 +6,17 @@ from pymongo.errors import DuplicateKeyError
 
 from ..auth.dependencies import get_current_user
 from ..db.mongodb import users
-from .schemas import CollectionUsers, UserProfile, UserProfileUpdate
+from .schemas import UserProfile, UserProfileUpdate
 
 users_router = APIRouter()
 
 USERNAME_TAKEN = HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Username already taken")
 
 
-@users_router.get("/all_users", tags=["User"])
-def get_all_users():
-    return CollectionUsers(users=list(users.find({})))
+@users_router.get("/all_users", response_model=list[UserProfile], tags=["User"])
+def get_all_users(current_user: dict = Depends(get_current_user)):
+    # Только безопасные поля: без hashed_password и refresh_tokens
+    return [UserProfile.model_validate(u) for u in users.find({})]
 
 
 @users_router.get("/me", response_model=UserProfile)
@@ -54,4 +55,4 @@ def update_me(data: UserProfileUpdate, current_user: dict = Depends(get_current_
     if updated is None:  # удалили между проверкой токена и апдейтом
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
 
-    return UserProfile.model_validate(updated)
+    return UserProfile.model_validate(updated)

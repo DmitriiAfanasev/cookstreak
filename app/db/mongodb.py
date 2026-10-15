@@ -10,6 +10,7 @@ foods = foods_db["foods"]
 
 users_db = client["user-db"]
 users = users_db["users"]
+menus = users_db["menus"]
 
 try:
     users.create_index("username", unique=True)

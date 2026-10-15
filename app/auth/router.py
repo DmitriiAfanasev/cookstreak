@@ -23,11 +23,16 @@ def login(authSign : AuthSign) -> Dict:
 
     current_user = AuthUser.model_validate(current_user_db)
 
-    if argon2.verify(authSign.password, current_user.hashed_password):
+    try:
+        password_ok = argon2.verify(authSign.password, current_user.hashed_password)
+    except ValueError:  # в базе не argon2-хеш (старые/тестовые юзеры) -> 401, а не 500
+        password_ok = False
+
+    if password_ok:
         token = issue_refresh_token(current_user.id)
         return {"access" : token.acc, "refresh" : token.ref, "token_type" : "bearer"}
     raise HTTPException(status_code=401, detail="Неверный email или пароль")
 
 @auth_router.post("/auth/refresh", response_model_by_alias=False, tags=["Demo Auth"])
 def refresh_token():
-    pass
+    pass
