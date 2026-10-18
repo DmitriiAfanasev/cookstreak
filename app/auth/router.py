@@ -12,6 +12,7 @@ from .schemas import AuthUser, AuthSign
 from ..core.config import auth_servies
 from .services import issue_refresh_token
 
+
 auth_router = APIRouter()
 
 @auth_router.post("/auth/login", response_model_by_alias=False, tags=["Auth"])
@@ -35,4 +36,4 @@ def login(authSign : AuthSign) -> Dict:
 
 @auth_router.post("/auth/refresh", response_model_by_alias=False, tags=["Demo Auth"])
 def refresh_token():
-    pass
+    pass
