@@ -22,7 +22,7 @@ class Users(BaseModel):
     id: Optional[PyObjectId] = Field(alias="_id", default=None)
     email: EmailStr
     hashed_password: str
-    username: str
+    username: Optional[str] = None
     display_name: str
     avatar_url: Optional[str] = None
     bio: Optional[str] = None
@@ -57,7 +57,7 @@ class CollectionUsers(BaseModel):
 class UserProfile(BaseModel):
     id: PyObjectId = Field(alias="_id")
     email: EmailStr
-    username: str
+    username: Optional[str] = None
     display_name: str
     avatar_url: Optional[str] = None
     bio: Optional[str] = None
